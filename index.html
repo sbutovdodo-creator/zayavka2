@@ -477,14 +477,8 @@ fetch(API_URL, {
     },
     body: JSON.stringify(data)
 });
-.then(() => {
-    alert("Сохранено");
-})
-.catch(err => {
-    alert("Ошибка");
-    console.error(err);
-});
 
+alert("Отправлено");
 }
 
 addWork();
