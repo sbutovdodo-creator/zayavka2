@@ -445,6 +445,9 @@ if (invalidWork) {
     alert("Есть работы не из списка");
     return;
 }
+
+const departurePrice = getDeparturePrice();
+
 const data = {
 point: pointInput.value,
 link: document.getElementById("link").value,
