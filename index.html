@@ -316,10 +316,12 @@ Promise.all([
   });
 
   console.log("Данные загружены");
+pointInput.disabled = false;
 });
 
 // ===== АВТОКОМПЛИТ ТОЧЕК =====
 const pointInput = document.getElementById("pointInput");
+pointInput.disabled = true;
 const pointDrop = document.getElementById("pointDropdown");
 
 pointInput.oninput = () => {
@@ -471,6 +473,8 @@ console.log(data);
 alert("Сохранено (пока в консоль)");
 
 }
+
+addWork();
 
 </script>
 
