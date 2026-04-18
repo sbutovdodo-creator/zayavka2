@@ -316,22 +316,7 @@ Promise.all([
   });
 
   console.log("Данные загружены");
-});.then(function(data){
 
-  const pointsData = data[0];
-  const priceData = data[1];
-
-  points = pointsData.map(function(p){
-    return p.name;
-  });
-
-  priceData.forEach(function(row){
-    priceList[row.name] = Number(row.price);
-  });
-
-  console.log("Данные загружены");
-
-});
 // ===== АВТОКОМПЛИТ ТОЧЕК =====
 const pointInput = document.getElementById("pointInput");
 const pointDrop = document.getElementById("pointDropdown");
