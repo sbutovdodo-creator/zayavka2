@@ -285,11 +285,38 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxUaA4z8KHNeKpBKt6Slprw
 let points = [];
 let priceList = {};
 
+let departure = {};
+
 Promise.all([
   fetch(API_URL + "?sheet=points").then(r => r.json()),
-  fetch(API_URL + "?sheet=price").then(r => r.json())
+  fetch(API_URL + "?sheet=price").then(r => r.json()),
+  fetch(API_URL + "?sheet=departure").then(r => r.json())
 ])
 .then(function(data){
+
+  const pointsData = data[0];
+  const priceData = data[1];
+  const departureData = data[2];
+
+  // точки
+  points = pointsData.map(p => p.name);
+
+  // прайс
+  priceData.forEach(row => {
+    priceList[row.name] = Number(row.price);
+  });
+
+  // выезды
+  departureData.forEach(row => {
+    departure[row.name] = {
+      planned: Number(row.planned),
+      urgent: Number(row.urgent),
+      emergency: Number(row.emergency)
+    };
+  });
+
+  console.log("Данные загружены");
+});.then(function(data){
 
   const pointsData = data[0];
   const priceData = data[1];
@@ -398,7 +425,19 @@ document.querySelectorAll(".work-row").forEach(r => {
 document.getElementById("total").innerText = total;
 
 }
+function getDeparturePrice() {
 
+  const point = document.getElementById("pointInput").value;
+  const type = document.getElementById("type").value;
+
+  if (!departure[point]) return 0;
+
+  if (type === "Плановая") return departure[point].planned;
+  if (type === "Срочная") return departure[point].urgent;
+  if (type === "Аварийная") return departure[point].emergency;
+
+  return 0;
+}
 // ===== СОХРАНЕНИЕ =====
 function save() {
 const pointValue = document.getElementById("pointInput").value;
@@ -428,6 +467,8 @@ type: document.getElementById("type").value,
 night: document.getElementById("night").checked,
 worker: document.getElementById("worker").value,
 
+departure: departurePrice, // 👈 ВОТ ЭТОЙ СТРОКИ НЕ ХВАТАЕТ
+
 materials: document.getElementById("materials").value,
 butov: document.getElementById("butov").value,
 lysenko: document.getElementById("lysenko").value,
@@ -437,7 +478,6 @@ parking: document.getElementById("parking").value,
 
 total: document.getElementById("total").innerText
 };
-
 console.log(data);
 alert("Сохранено (пока в консоль)");
 
