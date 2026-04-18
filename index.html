@@ -480,14 +480,8 @@ fetch(API_URL, {
 .catch(err => {
     alert("Ошибка");
     console.error(err);
-});.then(res => res.json())
-.then(res => {
-    alert("Сохранено");
-})
-.catch(err => {
-    alert("Ошибка");
-    console.error(err);
 });
+
 }
 
 addWork();
