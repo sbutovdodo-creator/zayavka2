@@ -471,9 +471,16 @@ total: document.getElementById("total").innerText
 };
 fetch(API_URL, {
     method: "POST",
+    mode: "no-cors", // 👈 ВАЖНО
     body: JSON.stringify(data)
 })
-.then(res => res.json())
+.then(() => {
+    alert("Сохранено");
+})
+.catch(err => {
+    alert("Ошибка");
+    console.error(err);
+});.then(res => res.json())
 .then(res => {
     alert("Сохранено");
 })
