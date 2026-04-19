@@ -265,6 +265,9 @@ position: sticky;
   <input type="number" id="parking">
 </div>
 
+<label>Комментарий</label>
+<textarea id="comment" placeholder="Что сделали, нюансы, проблемы..." style="width:100%;padding:10px;margin-bottom:10px;"></textarea>
+
 <!-- СОТРУДНИК -->
 <h3>Кто выполнил</h3>
 <select id="worker">
@@ -490,7 +493,7 @@ lysenko: document.getElementById("lysenko").value,
 rik: document.getElementById("rik").value,
 self: document.getElementById("self").value,
 parking: document.getElementById("parking").value,
-
+comment: document.getElementById("comment").value,
 total: document.getElementById("total").innerText
 };
 fetch(API_URL, {
