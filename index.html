@@ -507,22 +507,13 @@ addWork();
 const typeSelect = document.getElementById("type");
 const parkingBlock = document.getElementById("parkingBlock");
 
-// если у тебя есть поле выезда — добавь его id сюда
-const departureInput = document.getElementById("departure");
-
 typeSelect.onchange = function() {
 
   const isJoint = this.value === "Совместный";
 
-  // скрываем/показываем парковку
-  if (parkingInput) {
-    parkingInput.style.display = isJoint ? "none" : "block";
-  }
-
-  // скрываем/показываем выезд (если есть поле)
-  if (departureInput) {
-    departureInput.style.display = isJoint ? "none" : "block";
-  }
+  if (parkingBlock) {
+  parkingBlock.style.display = isJoint ? "none" : "block";
+}
 
 };
 
