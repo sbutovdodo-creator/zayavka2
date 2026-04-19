@@ -283,8 +283,8 @@ position: sticky;
 const API_URL = "https://script.google.com/macros/s/AKfycbyvhR8Hf6bLfP0-lh19BFj8WXweeoVqcQCKwCStkaHeiycm98vmPUsWaDZkWXEVKSOoVQ/exec";
 
 let points = [];
+let pointMap = {};
 let priceList = {};
-
 let departure = {};
 
 Promise.all([
@@ -299,8 +299,8 @@ Promise.all([
   const departureData = data[2];
 
   // точки
-  let points = [];
-let pointMap = {}; // 👈 добавили
+  points = [];
+pointMap = {};
 
 pointsData.forEach(p => {
   points.push(p.name);
@@ -460,7 +460,7 @@ const pointName = pointInput.value;
 const pointId = pointMap[pointName];
 const data = {
 point: pointInput.value,
-pointId: pointId
+pointId: pointId,
 link: document.getElementById("link").value,
 type: document.getElementById("type").value,
 night: document.getElementById("night").checked,
