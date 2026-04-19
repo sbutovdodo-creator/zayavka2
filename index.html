@@ -260,8 +260,10 @@ position: sticky;
 <label>Свои</label>
 <input type="number" id="self">
 
-<label>Парковка</label>
-<input type="number" id="parking">
+<div id="parkingBlock">
+  <label>Парковка</label>
+  <input type="number" id="parking">
+</div>
 
 <!-- СОТРУДНИК -->
 <h3>Кто выполнил</h3>
@@ -501,6 +503,30 @@ alert("Отправлено");
 }
 
 addWork();
+
+const typeSelect = document.getElementById("type");
+const parkingBlock = document.getElementById("parkingBlock");
+
+// если у тебя есть поле выезда — добавь его id сюда
+const departureInput = document.getElementById("departure");
+
+typeSelect.onchange = function() {
+
+  const isJoint = this.value === "Совместный";
+
+  // скрываем/показываем парковку
+  if (parkingInput) {
+    parkingInput.style.display = isJoint ? "none" : "block";
+  }
+
+  // скрываем/показываем выезд (если есть поле)
+  if (departureInput) {
+    departureInput.style.display = isJoint ? "none" : "block";
+  }
+
+};
+
+typeSelect.onchange();
 
 </script>
 
