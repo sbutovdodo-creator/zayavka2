@@ -280,7 +280,7 @@ position: sticky;
 <script>
 
 // ===== ЗАГРУЗКА ДАННЫХ =====
-const API_URL = "https://script.google.com/macros/s/AKfycbxr0G07o-yGt7ZaInZcgaE6UBVQXvuR59Se9H1fRTktQj9OwDHR4f1HRTrY3J747CrBjQ/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyAtHrrmKqIMEP1pyPNcpmcjqCtFFDSnoWGJ4qqRMgOnwc3HRH_d5LsHVV1BII0Ae8DEQ/exec";
 
 let points = [];
 let pointMap = {};
@@ -492,14 +492,13 @@ total: document.getElementById("total").innerText
 };
 fetch(API_URL, {
     method: "POST",
-    mode: "no-cors",
     headers: {
-        "Content-Type": "text/plain"
+        "Content-Type": "application/json"
     },
     body: JSON.stringify(data)
-});
-
-alert("Отправлено");
+})
+.then(() => alert("Отправлено"))
+.catch(() => alert("Ошибка отправки"));
 }
 
 addWork();
