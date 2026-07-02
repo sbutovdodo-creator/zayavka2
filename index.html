@@ -1,528 +1,240 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
-<link rel="icon" href="favicon.ico">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Отчёт</title>
-
-<style>
-body {
-    font-family: Arial;
-    background:#e5e7eb;
-    padding:10px;
-}
-
-.container {
-    max-width:600px;
-    margin:auto;
-    background:white;
-    padding:15px;
-    border-radius:10px;
-}
-
-input, select {
-    width:100%;
-    padding:10px;
-    margin-bottom:10px;
-    font-size:16px;
-    box-sizing: border-box;
-}
-
-button {
-    width:100%;
-    padding:12px;
-    background:#2563eb;
-    color:white;
-    border:none;
-    border-radius:6px;
-position: sticky;
-    bottom: 10px;
-}
-
-.autocomplete {
-    position:relative;
-}
-
-.dropdown {
-    position:absolute;
-    width:100%;
-    background:white;
-    border:1px solid #ccc;
-    max-height:150px;
-    overflow-y:auto;
-    display:none;
-    z-index:10;
-}
-
-.dropdown div {
-    padding:8px;
-    cursor:pointer;
-}
-.dropdown div:hover {
-    background:#eee;
-}
-
-.checkbox-row {
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-bottom:10px;
-}
-.checkbox-row input {
-    width: auto;
-    margin: 0;
-}
-
-.checkbox-row label {
-    margin: 0;
-}
-@media (max-width: 600px) {
-
-.container {
-    padding: 10px;
-}
-
-/* делаем строки работ вертикальными */
-.work-row {
-    flex-direction: column;
-    align-items: stretch;
-}
-
-/* поля растягиваются */
-.work-row .autocomplete,
-.qty,
-.price,
-.remove-btn {
-    width: 100%;
-}
-
-/* кнопку удалить делаем большой */
-.remove-btn {
-    height: 45px;
-}
-
-/* чекбокс */
-.checkbox-row {
-    justify-content: flex-start;
-}
-
-}
-
-/* ===== РАБОТЫ ===== */
-
-.work-row {
-    display:flex;
-    gap:8px;
-    margin-bottom:8px;
-    align-items:center;
-}
-
-.work-row .autocomplete {
-    flex:1;
-}
-
-.work-row .autocomplete input {
-    width:100%;
-}
-
-.qty {
-    width:80px;
-    text-align:center;
-}
-
-.price {
-    width:70px;
-    text-align:center;
-}
-
-.remove-btn {
-    width:40px;
-    height:40px;
-    background:red;
-    color:white;
-    border:none;
-}
-
-.total {
-    font-size:20px;
-    font-weight:bold;
-    margin-top:10px;
-}
-.switch-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 28px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #ccc;
-    border-radius: 34px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.slider:before {
-    content: "";
-    position: absolute;
-    height: 22px;
-    width: 22px;
-    left: 3px;
-    bottom: 3px;
-    background: white;
-    border-radius: 50%;
-    transition: 0.3s;
-}
-
-.switch input:checked + .slider {
-    background: #2563eb;
-}
-
-.switch input:checked + .slider:before {
-    transform: translateX(22px);
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="РИК-ЛАБ — комплексное инженерное сопровождение объектов общественного питания в Москве, Московской области, Санкт-Петербурге и Ленинградской области.">
+  <title>РИК-ЛАБ — инженерное сопровождение объектов общепита</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-
-<div class="container">
-
-<h2>Отчёт</h2>
-
-<!-- ТОЧКА -->
-<label>Точка</label>
-<div class="autocomplete">
-    <input id="pointInput" placeholder="Начни вводить...">
-    <div id="pointDropdown" class="dropdown"></div>
-</div>
-
-<!-- ССЫЛКА -->
-<label>Ссылка</label>
-<input id="link">
-
-<!-- ТИП -->
-<label>Тип заявки</label>
-<select id="type">
-  <option>Плановая</option>
-  <option>Срочная</option>
-  <option>Аварийная</option>
-  <option>Совместный</option>
-</select>
-
-<!-- НОЧНЫЕ -->
-<div class="switch-row">
-    <label class="switch">
-        <input type="checkbox" id="night">
-        <span class="slider"></span>
-    </label>
-    <span>Ночные работы</span></div>
-
-<!-- РАБОТЫ -->
-<h3>Работы</h3>
-<div id="works"></div>
-<button onclick="addWork()">+ Добавить работу</button>
-
-<div class="total">Итого: <span id="total">0</span> руб</div>
-
-<!-- МАТЕРИАЛЫ -->
-<h3>Материалы</h3>
-<input id="materials" placeholder="Что закупали">
-
-<label>Бутов</label>
-<input type="number" id="butov">
-
-<label>Лысенко</label>
-<input type="number" id="lysenko">
-
-<label>Рик-Лаб</label>
-<input type="number" id="rik">
-
-<label>Свои</label>
-<input type="number" id="self">
-
-<div id="parkingBlock">
-  <label>Парковка</label>
-  <input type="number" id="parking">
-</div>
-
-<label>Комментарий</label>
-<textarea id="comment" placeholder="Особенности выполнения, расчёта материалов или зп, проблемы..." style="width:100%;padding:10px;margin-bottom:10px;"></textarea>
-
-<!-- СОТРУДНИК -->
-<h3>Кто выполнил</h3>
-<select id="worker">
-<option>Пахомов Александр</option>
-<option>Холдоров Акрам</option>
-<option>Эсанов Бахром</option>
-<option>Эсанбоев Анвар</option>
-<option>Фефелов Сергей</option>
-<option>Давыдов Алексей</option>
-</select>
-
-<button onclick="save()">СОХРАНИТЬ</button>
-
-</div>
-
-<script>
-
-// ===== ЗАГРУЗКА ДАННЫХ =====
-const API_URL = "https://script.google.com/macros/s/AKfycbyAtHrrmKqIMEP1pyPNcpmcjqCtFFDSnoWGJ4qqRMgOnwc3HRH_d5LsHVV1BII0Ae8DEQ/exec";
-
-let points = [];
-let pointMap = {};
-let priceList = {};
-let departure = {};
-
-Promise.all([
-  fetch(API_URL + "?sheet=points").then(r => r.json()),
-  fetch(API_URL + "?sheet=price").then(r => r.json()),
-  fetch(API_URL + "?sheet=departure").then(r => r.json())
-])
-.then(function(data){
-
-  const pointsData = data[0];
-  const priceData = data[1];
-  const departureData = data[2];
-
-  // точки
-  points = [];
-pointMap = {};
-
-pointsData.forEach(p => {
-  points.push(p.name);
-  pointMap[p.name] = p.id; // 👈 тут храним номер точки
-});
-
-  // прайс
-  priceData.forEach(row => {
-    priceList[row.name] = Number(row.price);
-  });
-
-  // выезды
-  departureData.forEach(row => {
-    departure[row.name] = {
-      planned: Number(row.planned),
-      urgent: Number(row.urgent),
-      emergency: Number(row.emergency)
-    };
-  });
-
-  console.log("Данные загружены");
-pointInput.disabled = false;
-});
-
-// ===== АВТОКОМПЛИТ ТОЧЕК =====
-const pointInput = document.getElementById("pointInput");
-pointInput.disabled = true;
-const pointDrop = document.getElementById("pointDropdown");
-
-pointInput.oninput = () => {
-const val = pointInput.value.toLowerCase();
-pointDrop.innerHTML = "";
-
-if (!val) {
-    pointDrop.style.display = "none";
-    return;
-}
-
-points
-.filter(p => p.toLowerCase().includes(val))
-.forEach(p => {
-    const div = document.createElement("div");
-    div.innerText = p;
-    div.onclick = () => {
-        pointInput.value = p;
-        pointDrop.style.display = "none";
-    };
-    pointDrop.appendChild(div);
-});
-
-pointDrop.style.display = "block";
-};
-
-// ===== ДОБАВЛЕНИЕ РАБОТЫ =====
-function addWork() {
-
-const div = document.createElement('div');
-div.className = 'work-row';
-
-div.innerHTML = `
-<div class="autocomplete">
-    <input placeholder="Работа...">
-    <div class="dropdown"></div>
-</div>
-<input type="number" class="qty" value="1">
-<div class="price">0</div>
-<button class="remove-btn">X</button>
-`;
-
-document.getElementById('works').appendChild(div);
-
-const inp = div.querySelector("input");
-const drop = div.querySelector(".dropdown");
-
-inp.oninput = () => {
-const val = inp.value.toLowerCase();
-drop.innerHTML = "";
-
-Object.keys(priceList)
-.filter(i => i.toLowerCase().includes(val))
-.forEach(i => {
-    const d = document.createElement("div");
-    d.innerText = i;
-    d.onclick = () => {
-        inp.value = i;
-        drop.style.display = "none";
-        div.querySelector(".price").innerText = priceList[i];
-        calc();
-    };
-    drop.appendChild(d);
-});
-
-drop.style.display = "block";
-};
-
-div.querySelector(".qty").oninput = calc;
-
-div.querySelector(".remove-btn").onclick = () => {
-    div.remove();
-    calc();
-};
-
-}
-
-// ===== РАСЧЁТ =====
-function calc() {
-
-let total = 0;
-
-document.querySelectorAll(".work-row").forEach(r => {
-    const q = r.querySelector(".qty").value || 0;
-    const p = r.querySelector(".price").innerText || 0;
-    total += q * p;
-});
-
-document.getElementById("total").innerText = total;
-
-}
-function getDeparturePrice() {
-
-  const point = document.getElementById("pointInput").value;
-  const type = document.getElementById("type").value;
-
-  if (!departure[point]) return 0;
-
-  if (type === "Плановая") return departure[point].planned;
-  if (type === "Срочная") return departure[point].urgent;
-  if (type === "Аварийная") return departure[point].emergency;
-
-  return 0;
-}
-// ===== СОХРАНЕНИЕ =====
-function save() {
-const pointValue = document.getElementById("pointInput").value;
-
-if (!points.includes(pointValue)) {
-    alert("Выбери точку из списка");
-    return;
-}
-let invalidWork = false;
-
-document.querySelectorAll(".work-row").forEach(r => {
-    const workName = r.querySelector("input").value;
-
-    if (!priceList[workName]) {
-        invalidWork = true;
-    }
-});
-
-if (invalidWork) {
-    alert("Есть работы не из списка");
-    return;
-}
-
-const departurePrice = getDeparturePrice();
-const pointName = pointInput.value;
-let works = [];
-
-document.querySelectorAll(".work-row").forEach(r => {
-    const name = r.querySelector("input").value;
-    const qty = Number(r.querySelector(".qty").value || 0);
-    const price = Number(r.querySelector(".price").innerText || 0);
-
-    if (name && qty > 0) {
-        works.push({
-            name: name,
-            qty: qty,
-            price: price
-        });
-    }
-});
-const data = {
-point: pointInput.value,
-link: document.getElementById("link").value,
-type: document.getElementById("type").value,
-night: document.getElementById("night").checked,
-worker: document.getElementById("worker").value,
-works: works,
-departure: departurePrice, // 👈 ВОТ ЭТОЙ СТРОКИ НЕ ХВАТАЕТ
-
-materials: document.getElementById("materials").value,
-butov: document.getElementById("butov").value,
-lysenko: document.getElementById("lysenko").value,
-rik: document.getElementById("rik").value,
-self: document.getElementById("self").value,
-parking: document.getElementById("parking").value,
-comment: document.getElementById("comment").value,
-total: document.getElementById("total").innerText
-};
-fetch(API_URL, {
-    method: "POST",
-    mode: "no-cors",
-    body: JSON.stringify(data)
-});
-
-alert("Отправлено");
-}
-
-addWork();
-
-const typeSelect = document.getElementById("type");
-const parkingBlock = document.getElementById("parkingBlock");
-
-typeSelect.onchange = function() {
-
-  const isJoint = this.value === "Совместный";
-
-  if (parkingBlock) {
-  parkingBlock.style.display = isJoint ? "none" : "block";
-}
-
-};
-
-typeSelect.onchange();
-
-</script>
-
+  <header class="site-header" data-header>
+    <a class="logo" href="#top" aria-label="РИК-ЛАБ">
+      <img src="assets/logo/logo-transparent.png" alt="РИК-ЛАБ">
+      <span>РИК-ЛАБ</span>
+    </a>
+    <nav class="main-nav" data-nav aria-label="Основная навигация">
+      <a href="#services">Направления</a>
+      <a href="#advantages">Преимущества</a>
+      <a href="#clients">Клиенты</a>
+      <a href="#projects">Проекты</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Включить темную тему" aria-pressed="false">
+      <span class="theme-toggle__track">
+        <span class="theme-toggle__thumb"></span>
+      </span>
+      <span class="theme-toggle__text" data-theme-label>Светлая</span>
+    </button>
+    <button class="burger" type="button" data-burger aria-label="Открыть меню" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <main id="top">
+    <section class="hero section-reveal">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__content">
+        <p class="eyebrow">РИК-ЛАБ · c 2019 года</p>
+        <h1>Комплексное инженерное сопровождение объектов общественного питания</h1>
+        <p class="hero__lead">Проектируем, строим, оснащаем и сопровождаем рестораны, кафе и сетевые объекты на всех этапах их жизненного цикла.</p>
+        <p class="hero__geo">Москва · Московская область · Санкт-Петербург · Ленинградская область</p>
+        <a class="text-link" href="#request">Оставить заявку</a>
+      </div>
+      <div class="hero__stats" aria-label="Ключевые факты">
+        <div>
+          <strong>60+</strong>
+          <span>специалистов</span>
+        </div>
+        <div>
+          <strong>IV–V</strong>
+          <span>группы по электробезопасности</span>
+        </div>
+        <div>
+          <strong>ЭЛ</strong>
+          <span>лицензированная электролаборатория</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section services section-reveal" id="services">
+      <div class="section-heading">
+        <p class="eyebrow">Направления</p>
+        <h2>Что мы берем на себя</h2>
+      </div>
+      <div class="service-grid">
+        <article class="service-card">
+          <span>01</span>
+          <h3>Строительство объектов общепита</h3>
+          <p>Создаем рестораны и кафе с нуля: выполняем строительно-монтажные, инженерные и отделочные работы, сопровождаем ввод объекта в эксплуатацию.</p>
+        </article>
+        <article class="service-card">
+          <span>02</span>
+          <h3>Электротехнические работы</h3>
+          <p>Электромонтаж, сборка электрощитов, диагностика, испытания и услуги электролаборатории.</p>
+        </article>
+        <article class="service-card">
+          <span>03</span>
+          <h3>Инженерные системы ОВиК</h3>
+          <p>Монтаж, обслуживание и ремонт систем вентиляции, кондиционирования и климатического оборудования.</p>
+        </article>
+        <article class="service-card">
+          <span>04</span>
+          <h3>Технологическое оборудование</h3>
+          <p>Обслуживание и ремонт оборудования предприятий общественного питания: кухни, линии приготовления, холодильное и моечное оборудование.</p>
+        </article>
+        <article class="service-card">
+          <span>05</span>
+          <h3>Слаботочные системы</h3>
+          <p>Видеонаблюдение, интернет, Wi-Fi, локальные сети, музыкальное сопровождение и сопутствующая инфраструктура.</p>
+        </article>
+        <article class="service-card">
+          <span>06</span>
+          <h3>Эксплуатация помещений</h3>
+          <p>Комплексное техническое обслуживание, косметический ремонт, отделочные работы, замена элементов интерьера, освещения, розеток и сантехники.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section cycle section-reveal" id="cycle">
+      <div class="section-heading">
+        <p class="eyebrow">Полный цикл</p>
+        <h2>Сопровождаем объект от идеи до эксплуатации</h2>
+      </div>
+      <div class="cycle-line" aria-label="Полный цикл сопровождения">
+        <div>Проектирование</div>
+        <div>Строительство</div>
+        <div>Инженерное оснащение</div>
+        <div>Запуск объекта</div>
+        <div>Техническое обслуживание</div>
+        <div>Эксплуатация</div>
+      </div>
+    </section>
+
+    <section class="section advantages section-reveal" id="advantages">
+      <div class="section-heading">
+        <p class="eyebrow">Почему РИК-ЛАБ</p>
+        <h2>Инженерная команда, которая понимает ритм общепита</h2>
+      </div>
+      <div class="advantage-grid">
+        <article>
+          <h3>Один подрядчик</h3>
+          <p>От строительства нового объекта до его дальнейшей эксплуатации.</p>
+        </article>
+        <article>
+          <h3>Опыт работы с сетевыми клиентами</h3>
+          <p>Понимаем стандарты федеральных брендов, требования управляющих компаний и сроки открытия объектов.</p>
+        </article>
+        <article>
+          <h3>Более 60 специалистов</h3>
+          <p>Инженеры, электрики, специалисты по ОВиК, технологическому оборудованию и отделочным работам работают как единая команда.</p>
+        </article>
+        <article>
+          <h3>Документальное сопровождение</h3>
+          <p>Протоколы электролаборатории, исполнительная документация, акты и техническая отчетность.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section clients section-reveal" id="clients">
+      <div class="section-heading section-heading--wide">
+        <p class="eyebrow">Нам доверяют</p>
+        <h2>РИК-ЛАБ выполняет строительство, сервисное обслуживание и инженерные работы для федеральных и региональных сетей общественного питания.</h2>
+      </div>
+      <div class="client-grid">
+        <div class="client-logo"><img src="assets/clients/dodo.png" alt="Додо Пицца" loading="lazy"></div>
+        <div class="client-logo"><img src="assets/clients/drinkit.png" alt="Дринкит" loading="lazy"></div>
+        <div class="client-logo"><img src="assets/clients/harats-pub.png" alt="Harat's Pub" loading="lazy"></div>
+        <div class="client-logo"><img src="assets/clients/4-pivovara.png" alt="4 Пивовара" loading="lazy"></div>
+        <div class="client-logo"><img src="assets/clients/surf-coffee.png" alt="Surf Coffee" loading="lazy"></div>
+        <div class="client-logo"><img src="assets/clients/zatsepi-coffee.png" alt="Зацепи Кофе" loading="lazy"></div>
+        <div class="client-logo"><img src="assets/clients/lan-ma.png" alt="Лан-Ма" loading="lazy"></div>
+        <div class="client-logo"><img src="assets/clients/valle-sanchez.png" alt="Valle Sanchez" loading="lazy"></div>
+        <div class="client-logo"><img src="assets/clients/pho-ngon.png" alt="Pho Ngon" loading="lazy"></div>
+      </div>
+    </section>
+
+    <section class="section projects section-reveal" id="projects">
+      <div class="section-heading">
+        <p class="eyebrow">Проекты</p>
+        <h2>Готовые объекты общественного питания</h2>
+      </div>
+      <div class="project-grid">
+        <article class="project-card">
+          <img class="project-card__visual" src="assets/photos/processed/project-valle-hall.jpg" alt="Готовый зал Valle Sanchez" loading="lazy">
+          <h3>Valle Sanchez · зал кофейни</h3>
+        </article>
+        <article class="project-card">
+          <img class="project-card__visual" src="assets/photos/processed/project-drinkit-cafe.jpg" alt="Готовая посадочная зона Дринкит" loading="lazy">
+          <h3>Дринкит · посадочная зона</h3>
+        </article>
+        <article class="project-card">
+          <img class="project-card__visual" src="assets/photos/processed/project-dodo-hall.jpg" alt="Готовый зал Додо Пицца" loading="lazy">
+          <h3>Додо Пицца · готовый зал</h3>
+        </article>
+        <article class="project-card">
+          <img class="project-card__visual" src="assets/photos/processed/project-drinkit-facade.jpg" alt="Готовый объект Дринкит" loading="lazy">
+          <h3>Дринкит · запуск объекта</h3>
+        </article>
+      </div>
+    </section>
+
+    <section class="request section-reveal" id="request">
+      <div class="request__text">
+        <p class="eyebrow">Заявка</p>
+        <h2>Обсудим ваш объект?</h2>
+        <p>Расскажите, какая задача стоит перед вами, и специалисты РИК-ЛАБ свяжутся с вами для обсуждения возможного решения.</p>
+      </div>
+      <form class="request-form" data-form>
+        <label>
+          <span>Имя</span>
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+        <label>
+          <span>Компания</span>
+          <input type="text" name="company" autocomplete="organization">
+        </label>
+        <label>
+          <span>Телефон</span>
+          <input type="tel" name="phone" autocomplete="tel" required>
+        </label>
+        <label>
+          <span>Описание задачи</span>
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+        <button type="submit">Отправить заявку</button>
+        <p class="form-message" data-form-message role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="contacts section-reveal" id="contacts">
+    <div>
+      <p class="eyebrow">Контакты</p>
+      <h2>РИК-ЛАБ</h2>
+      <p>Комплексное инженерное сопровождение объектов общественного питания.</p>
+    </div>
+    <address>
+      <a href="tel:+7">+7 (___) ___-__-__</a>
+      <a href="mailto:info@rik-lab.ru">info@rik-lab.ru</a>
+      <span>Москва, Московская область, Санкт-Петербург, Ленинградская область</span>
+    </address>
+    <details class="requisites">
+      <summary>Реквизиты</summary>
+      <p>ООО "РИК-ЛАБ"</p>
+      <p>ИНН 9715442412</p>
+      <p>КПП 771501001</p>
+      <p>ОГРН 1237700143273</p>
+      <p>Юридический адрес: 127221, Россия, г. Москва, вн. тер. г. муниципальный округ Северное Медведково, ул. Молодцова, д. 2, к. 1, помещ. 5Н</p>
+    </details>
+  </footer>
+
+  <script src="js/main.js"></script>
 </body>
 </html>
