@@ -171,6 +171,21 @@ img {
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
+[data-theme="light"] .theme-toggle__icon {
+  color: #F36B21;
+}
+
+.theme-toggle__icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 17px;
+  line-height: 1;
+}
+
 [data-theme="dark"] .theme-toggle__thumb {
   transform: translateX(18px);
   background: var(--accent);
@@ -234,7 +249,7 @@ img {
   background:
     linear-gradient(115deg, rgba(7, 26, 47, 0.98) 0%, rgba(7, 26, 47, 0.88) 43%, rgba(7, 26, 47, 0.3) 100%),
     linear-gradient(0deg, rgba(7, 26, 47, 0.34), rgba(7, 26, 47, 0.34)),
-    url("../assets/photos/processed/hero-valle-counter.jpg") center / cover no-repeat,
+    url("../assets/photos/processed/hero-drinkit.jpg") center / cover no-repeat,
     radial-gradient(circle at 72% 36%, rgba(243, 107, 33, 0.28), transparent 28%),
     linear-gradient(135deg, transparent 0 46%, rgba(255, 255, 255, 0.1) 46.2% 46.6%, transparent 46.8%),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 104px),
@@ -250,7 +265,7 @@ img {
   background:
     linear-gradient(115deg, rgba(247, 248, 250, 0.98) 0%, rgba(247, 248, 250, 0.9) 46%, rgba(247, 248, 250, 0.22) 100%),
     linear-gradient(0deg, rgba(247, 248, 250, 0.12), rgba(247, 248, 250, 0.12)),
-    url("../assets/photos/processed/hero-valle-counter.jpg") center / cover no-repeat,
+    url("../assets/photos/processed/hero-drinkit.jpg") center / cover no-repeat,
     radial-gradient(circle at 72% 36%, rgba(243, 107, 33, 0.18), transparent 28%),
     linear-gradient(135deg, transparent 0 46%, rgba(7, 26, 47, 0.08) 46.2% 46.6%, transparent 46.8%),
     repeating-linear-gradient(90deg, rgba(7, 26, 47, 0.045) 0 1px, transparent 1px 104px),
@@ -837,14 +852,6 @@ h3 {
 
   .theme-toggle {
     padding: 0 10px;
-  }
-
-  .theme-toggle__text {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
   }
 
   .hero {

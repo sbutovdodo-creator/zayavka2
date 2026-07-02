@@ -3,7 +3,7 @@ const header = document.querySelector("[data-header]");
 const burger = document.querySelector("[data-burger]");
 const nav = document.querySelector("[data-nav]");
 const themeToggle = document.querySelector("[data-theme-toggle]");
-const themeLabel = document.querySelector("[data-theme-label]");
+const themeIcon = document.querySelector("[data-theme-icon]");
 const form = document.querySelector("[data-form]");
 const formMessage = document.querySelector("[data-form-message]");
 
@@ -13,7 +13,7 @@ function applyTheme(theme) {
   const isDark = theme === "dark";
   themeToggle.setAttribute("aria-pressed", String(isDark));
   themeToggle.setAttribute("aria-label", isDark ? "Включить светлую тему" : "Включить темную тему");
-  themeLabel.textContent = isDark ? "Темная" : "Светлая";
+  themeIcon.textContent = isDark ? "☾" : "☀";
 }
 
 let savedTheme = "light";
