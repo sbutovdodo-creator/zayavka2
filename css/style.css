@@ -62,7 +62,8 @@ img {
   width: auto;
   max-width: none;
   margin: 18px 0 0;
-  padding: 4px 18px;
+  min-height: 86px;
+  padding: 8px 18px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 8px;
   background: rgba(7, 26, 47, 0.78);
@@ -91,18 +92,19 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 18px;
-  height: 64px;
+  height: 66px;
   font-size: 26px;
   font-weight: 800;
   letter-spacing: 0;
 }
 
 .logo img {
-  width: 72px;
-  height: 72px;
+  display: block;
+  width: 66px;
+  height: 66px;
   border-radius: 0;
   object-fit: contain;
-  transform: translateY(-4px);
+  transform: none;
 }
 
 .main-nav {
@@ -249,7 +251,7 @@ img {
   background:
     linear-gradient(115deg, rgba(7, 26, 47, 0.98) 0%, rgba(7, 26, 47, 0.88) 43%, rgba(7, 26, 47, 0.3) 100%),
     linear-gradient(0deg, rgba(7, 26, 47, 0.34), rgba(7, 26, 47, 0.34)),
-    url("../assets/photos/processed/hero-drinkit.jpg") center / cover no-repeat,
+    url("../assets/photos/processed/hero-drinkit-interior.jpg") center / cover no-repeat,
     radial-gradient(circle at 72% 36%, rgba(243, 107, 33, 0.28), transparent 28%),
     linear-gradient(135deg, transparent 0 46%, rgba(255, 255, 255, 0.1) 46.2% 46.6%, transparent 46.8%),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 104px),
@@ -265,7 +267,7 @@ img {
   background:
     linear-gradient(115deg, rgba(247, 248, 250, 0.98) 0%, rgba(247, 248, 250, 0.9) 46%, rgba(247, 248, 250, 0.22) 100%),
     linear-gradient(0deg, rgba(247, 248, 250, 0.12), rgba(247, 248, 250, 0.12)),
-    url("../assets/photos/processed/hero-drinkit.jpg") center / cover no-repeat,
+    url("../assets/photos/processed/hero-drinkit-interior.jpg") center / cover no-repeat,
     radial-gradient(circle at 72% 36%, rgba(243, 107, 33, 0.18), transparent 28%),
     linear-gradient(135deg, transparent 0 46%, rgba(7, 26, 47, 0.08) 46.2% 46.6%, transparent 46.8%),
     repeating-linear-gradient(90deg, rgba(7, 26, 47, 0.045) 0 1px, transparent 1px 104px),
@@ -745,7 +747,8 @@ h3 {
     right: 12px;
     width: auto;
     margin-top: 12px;
-    padding: 3px 12px;
+    min-height: 68px;
+    padding: 6px 12px;
   }
 
   .burger {
@@ -840,14 +843,14 @@ h3 {
 @media (max-width: 620px) {
   .logo {
     gap: 9px;
-    height: 48px;
+    height: 50px;
     font-size: 17px;
   }
 
   .logo img {
-    width: 54px;
-    height: 54px;
-    transform: translateY(-3px);
+    width: 50px;
+    height: 50px;
+    transform: none;
   }
 
   .theme-toggle {
