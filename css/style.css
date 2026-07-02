@@ -103,6 +103,7 @@ img {
   width: 66px;
   height: 66px;
   border-radius: 0;
+  clip-path: inset(2.5% round 12%);
   object-fit: contain;
   transform: none;
 }
