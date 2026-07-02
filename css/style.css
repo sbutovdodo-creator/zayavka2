@@ -113,7 +113,7 @@ img {
   align-items: center;
   gap: 28px;
   color: rgba(255, 255, 255, 0.74);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
 }
 
@@ -300,7 +300,7 @@ img {
 .eyebrow {
   margin: 0 0 14px;
   color: var(--accent);
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -504,17 +504,33 @@ h3 {
 
 .cycle-line div {
   position: relative;
-  min-height: 128px;
+  min-height: 184px;
   display: flex;
-  align-items: center;
-  padding: 20px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px 20px;
   border-right: 1px solid var(--line);
-  color: var(--text);
-  font-weight: 800;
+  background: var(--surface);
 }
 
 .cycle-line div:last-child {
   border-right: 0;
+}
+
+.cycle-line strong {
+  display: block;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.cycle-line span {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.55;
 }
 
 .cycle-line div::after {
@@ -544,6 +560,10 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--line);
+}
+
+[data-theme="dark"] .client-grid {
+  background: var(--white);
 }
 
 .client-grid span {
@@ -584,6 +604,10 @@ h3 {
   justify-content: center;
   padding: 26px;
   background: var(--surface);
+}
+
+[data-theme="dark"] .client-logo {
+  background: var(--white);
 }
 
 .client-logo img {
@@ -893,7 +917,8 @@ h3 {
   }
 
   .cycle-line div {
-    min-height: 92px;
+    min-height: auto;
+    padding: 22px;
   }
 
   .client-grid span {
