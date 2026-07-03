@@ -132,22 +132,38 @@ function verify_smartcaptcha(array $config, string $token): bool
         'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
     ]);
 
-    $context = stream_context_create([
-        'http' => [
-            'method' => 'POST',
-            'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
-            'content' => $payload,
-            'timeout' => 10,
-        ],
-    ]);
+    $host = 'smartcaptcha.yandexcloud.net';
+    $socket = fsockopen('ssl://' . $host, 443, $errno, $errstr, 10);
 
-    $response = file_get_contents('https://smartcaptcha.yandexcloud.net/validate', false, $context);
-
-    if ($response === false) {
-        throw new RuntimeException('SmartCaptcha validation request failed.');
+    if (!$socket) {
+        throw new RuntimeException('SmartCaptcha connection failed: ' . $errstr);
     }
 
-    $result = json_decode($response, true);
+    stream_set_timeout($socket, 10);
+
+    $request = implode("\r\n", [
+        'POST /validate HTTP/1.1',
+        'Host: ' . $host,
+        'Content-Type: application/x-www-form-urlencoded',
+        'Content-Length: ' . strlen($payload),
+        'Connection: close',
+        '',
+        $payload,
+    ]);
+
+    fwrite($socket, $request);
+
+    $response = '';
+
+    while (!feof($socket)) {
+        $response .= fgets($socket, 1024);
+    }
+
+    fclose($socket);
+
+    $parts = explode("\r\n\r\n", $response, 2);
+    $body = $parts[1] ?? '';
+    $result = json_decode($body, true);
 
     return is_array($result) && ($result['status'] ?? '') === 'ok';
 }
