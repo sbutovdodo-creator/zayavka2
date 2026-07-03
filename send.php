@@ -110,6 +110,48 @@ function smtp_send(array $config, string $subject, string $body, string $replyTo
     }
 }
 
+function verify_smartcaptcha(array $config, string $token): bool
+{
+    if (empty($config['captcha_enabled'])) {
+        return true;
+    }
+
+    $secret = (string) ($config['captcha_secret'] ?? '');
+
+    if ($secret === '' || $secret === 'PASTE_YANDEX_SMARTCAPTCHA_SERVER_KEY_HERE') {
+        throw new RuntimeException('SmartCaptcha secret is not configured.');
+    }
+
+    if ($token === '') {
+        return false;
+    }
+
+    $payload = http_build_query([
+        'secret' => $secret,
+        'token' => $token,
+        'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
+    ]);
+
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'POST',
+            'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
+            'content' => $payload,
+            'timeout' => 10,
+        ],
+    ]);
+
+    $response = file_get_contents('https://smartcaptcha.yandexcloud.net/validate', false, $context);
+
+    if ($response === false) {
+        throw new RuntimeException('SmartCaptcha validation request failed.');
+    }
+
+    $result = json_decode($response, true);
+
+    return is_array($result) && ($result['status'] ?? '') === 'ok';
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Метод не поддерживается.', 405);
 }
@@ -130,10 +172,20 @@ if (!empty($_POST['website'])) {
     respond(true, 'Спасибо, заявка отправлена.');
 }
 
+$captchaToken = clean_value((string) ($_POST['smart-token'] ?? ''), 4096);
 $name = clean_value((string) ($_POST['name'] ?? ''), 120);
 $company = clean_value((string) ($_POST['company'] ?? ''), 160);
 $phone = clean_value((string) ($_POST['phone'] ?? ''), 80);
 $message = clean_value((string) ($_POST['message'] ?? ''), 2000);
+
+try {
+    if (!verify_smartcaptcha($config, $captchaToken)) {
+        respond(false, 'Подтвердите, что вы не робот.', 422);
+    }
+} catch (Throwable $error) {
+    error_log('RIK-LAB captcha error: ' . $error->getMessage());
+    respond(false, 'Проверка капчи временно недоступна. Позвоните нам: +7 995 918-65-16.', 500);
+}
 
 if ($name === '' || $phone === '' || $message === '') {
     respond(false, 'Заполните имя, телефон и описание задачи.', 422);

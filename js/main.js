@@ -104,8 +104,14 @@ form.addEventListener("submit", async (event) => {
 
     formMessage.textContent = result.message || "Спасибо, заявка отправлена.";
     form.reset();
+    if (window.smartCaptcha && typeof window.smartCaptcha.reset === "function") {
+      window.smartCaptcha.reset();
+    }
   } catch (error) {
     formMessage.textContent = "Не удалось отправить заявку. Позвоните нам: +7 995 918-65-16.";
+    if (window.smartCaptcha && typeof window.smartCaptcha.reset === "function") {
+      window.smartCaptcha.reset();
+    }
   } finally {
     submitButton.disabled = false;
     submitButton.textContent = defaultButtonText;

@@ -1,5 +1,5 @@
 <?php
-// Скопируйте этот файл в config.local.php на сервере и впишите пароль от ящика.
+// Скопируйте этот файл в config.local.php на сервере и впишите секретные данные.
 // config.local.php не нужно публиковать в GitHub.
 
 return [
@@ -12,4 +12,8 @@ return [
     'mail_from_name' => 'РИК-ЛАБ',
     'mail_to' => 'info@riklab.ru',
     'mail_subject' => 'Заявка с сайта РИК-ЛАБ',
+
+    // Секретный ключ Яндекс SmartCaptcha. Публичный sitekey указан в index.html.
+    'captcha_enabled' => true,
+    'captcha_secret' => 'PASTE_YANDEX_SMARTCAPTCHA_SERVER_KEY_HERE',
 ];
