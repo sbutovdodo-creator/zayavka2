@@ -534,13 +534,7 @@ h3 {
 }
 
 .cycle-line div::after {
-  content: "";
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  width: 22px;
-  height: 2px;
-  background: var(--accent);
+  display: none;
 }
 
 .advantage-grid article {
@@ -641,6 +635,95 @@ h3 {
 .project-card h3 {
   margin: 0;
   padding: 24px 26px 28px;
+}
+
+.works {
+  padding-top: 20px;
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.work-card {
+  position: relative;
+  min-height: 300px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--dark);
+  color: var(--white);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.work-card--large {
+  grid-column: span 2;
+  grid-row: span 2;
+  min-height: 614px;
+}
+
+.work-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(243, 107, 33, 0.42);
+  box-shadow: 0 24px 50px var(--card-shadow);
+}
+
+.work-card img {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+  opacity: 0.82;
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+.work-card:hover img {
+  transform: scale(1.035);
+  opacity: 0.92;
+}
+
+.work-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(7, 26, 47, 0.04), rgba(7, 26, 47, 0.84));
+}
+
+.work-card div {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 24px;
+}
+
+.work-card span {
+  display: inline-flex;
+  margin-bottom: 10px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.work-card h3 {
+  margin: 0;
+  color: var(--white);
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.work-card p {
+  max-width: 520px;
+  margin: 12px 0 0;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 .request {
@@ -842,9 +925,21 @@ h3 {
   .advantage-grid,
   .project-grid,
   .client-grid,
+  .work-grid,
   .request,
   .contacts {
     grid-template-columns: 1fr;
+  }
+
+  .work-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .work-card,
+  .work-card--large {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 340px;
   }
 
   .section-heading {
@@ -927,6 +1022,19 @@ h3 {
 
   .project-card__visual {
     height: 220px;
+  }
+
+  .work-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .work-card,
+  .work-card--large {
+    min-height: 320px;
+  }
+
+  .work-card div {
+    padding: 20px;
   }
 
   .request {
