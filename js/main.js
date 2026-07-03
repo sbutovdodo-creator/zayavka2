@@ -75,9 +75,39 @@ document.querySelectorAll(".section-reveal").forEach((section) => {
   revealObserver.observe(section);
 });
 
-// Заглушка отправки формы до подключения почты или CRM.
-form.addEventListener("submit", (event) => {
+// Отправка заявки через PHP-обработчик на сервере.
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  formMessage.textContent = "Спасибо, заявка подготовлена. Подключим отправку после настройки почты или CRM.";
-  form.reset();
+
+  const submitButton = form.querySelector("button[type='submit']");
+  const formData = new FormData(form);
+  const defaultButtonText = submitButton.textContent;
+
+  formMessage.textContent = "Отправляем заявку...";
+  submitButton.disabled = true;
+  submitButton.textContent = "Отправка...";
+
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || "Не удалось отправить заявку.");
+    }
+
+    formMessage.textContent = result.message || "Спасибо, заявка отправлена.";
+    form.reset();
+  } catch (error) {
+    formMessage.textContent = "Не удалось отправить заявку. Позвоните нам: +7 995 918-65-16.";
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = defaultButtonText;
+  }
 });

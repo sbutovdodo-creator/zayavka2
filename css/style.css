@@ -773,6 +773,14 @@ h3 {
   font-weight: 700;
 }
 
+.form-field--hidden {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .request-form input,
 .request-form textarea {
   width: 100%;

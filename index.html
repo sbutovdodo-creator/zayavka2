@@ -284,7 +284,11 @@
         <h2>Обсудим ваш объект?</h2>
         <p>Расскажите, какая задача стоит перед вами, и специалисты РИК-ЛАБ свяжутся с вами для обсуждения возможного решения.</p>
       </div>
-      <form class="request-form" data-form>
+      <form class="request-form" action="send.php" method="post" data-form>
+        <label class="form-field--hidden" aria-hidden="true">
+          <span>Сайт</span>
+          <input type="text" name="website" tabindex="-1" autocomplete="off">
+        </label>
         <label>
           <span>Имя</span>
           <input type="text" name="name" autocomplete="name" required>
