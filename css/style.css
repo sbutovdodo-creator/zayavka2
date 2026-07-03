@@ -341,28 +341,56 @@ h1 {
   color: rgba(7, 26, 47, 0.58);
 }
 
-[data-theme="light"] .text-link {
-  color: var(--dark);
-}
-
-.text-link {
+.hero__actions {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  color: var(--white);
-  font-weight: 800;
+  flex-wrap: wrap;
+  gap: 14px;
 }
 
-.text-link::after {
-  content: "";
-  width: 42px;
-  height: 2px;
+.hero-button {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 22px;
+  border: 1px solid rgba(243, 107, 33, 0.58);
+  border-radius: 8px;
   background: var(--accent);
-  transition: width 0.2s ease;
+  color: var(--white);
+  box-shadow: 0 16px 34px rgba(243, 107, 33, 0.22);
+  font-weight: 800;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.text-link:hover::after {
-  width: 64px;
+.hero-button:hover {
+  transform: translateY(-2px);
+  background: #ff7a32;
+  box-shadow: 0 20px 42px rgba(243, 107, 33, 0.3);
+}
+
+.hero-phone {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 800;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.hero-phone:hover {
+  transform: translateY(-2px);
+  border-color: rgba(243, 107, 33, 0.58);
+  color: var(--white);
+}
+
+[data-theme="light"] .hero-phone {
+  border-color: rgba(7, 26, 47, 0.14);
+  color: var(--dark);
 }
 
 .hero__stats {
@@ -695,36 +723,26 @@ h3 {
 .work-card div {
   position: absolute;
   z-index: 2;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 24px;
+  top: 18px;
+  left: 18px;
+  padding: 0;
 }
 
 .work-card span {
   display: inline-flex;
-  margin-bottom: 10px;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid rgba(243, 107, 33, 0.46);
+  border-radius: 999px;
+  background: rgba(7, 26, 47, 0.72);
   color: var(--accent);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.work-card h3 {
-  margin: 0;
-  color: var(--white);
-  font-size: 20px;
-  line-height: 1.25;
-}
-
-.work-card p {
-  max-width: 520px;
-  margin: 12px 0 0;
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 15px;
-  line-height: 1.6;
-}
 
 .request {
   display: grid;
@@ -1034,7 +1052,9 @@ h3 {
   }
 
   .work-card div {
-    padding: 20px;
+    top: 16px;
+    left: 16px;
+    padding: 0;
   }
 
   .request {
