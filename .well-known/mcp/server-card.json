@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "РИК-ЛАБ website",
+    "version": "1.0.0",
+    "description": "Public website discovery card. РИК-ЛАБ does not currently provide a public MCP server endpoint."
+  },
+  "transports": [],
+  "capabilities": {
+    "tools": false,
+    "resources": true,
+    "prompts": false
+  },
+  "resources": [
+    {
+      "name": "LLM summary",
+      "uri": "https://riklab.ru/llms.txt",
+      "mimeType": "text/markdown"
+    },
+    {
+      "name": "Company profile",
+      "uri": "https://riklab.ru/ai.json",
+      "mimeType": "application/json"
+    }
+  ]
+}

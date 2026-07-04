@@ -1,0 +1,36 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://riklab.ru/",
+      "service-doc": [
+        {
+          "href": "https://riklab.ru/llms.txt",
+          "type": "text/markdown",
+          "title": "LLM-readable summary"
+        },
+        {
+          "href": "https://riklab.ru/auth.md",
+          "type": "text/markdown",
+          "title": "Agent authentication notes"
+        }
+      ],
+      "service-desc": [
+        {
+          "href": "https://riklab.ru/ai.json",
+          "type": "application/json",
+          "title": "Machine-readable company profile"
+        },
+        {
+          "href": "https://riklab.ru/.well-known/agent-skills/index.json",
+          "type": "application/json",
+          "title": "Agent skills discovery index"
+        },
+        {
+          "href": "https://riklab.ru/.well-known/mcp/server-card.json",
+          "type": "application/json",
+          "title": "MCP server card"
+        }
+      ]
+    }
+  ]
+}

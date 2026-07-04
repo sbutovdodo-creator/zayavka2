@@ -1,0 +1,40 @@
+{
+  "$schema": "https://agentskills.io/schemas/agent-skills-index.json",
+  "name": "РИК-ЛАБ",
+  "description": "Agent-readable index for РИК-ЛАБ public website capabilities.",
+  "url": "https://riklab.ru/.well-known/agent-skills/index.json",
+  "skills": [
+    {
+      "name": "request-engineering-service",
+      "type": "web-form",
+      "description": "Submit a request for engineering support of a restaurant, cafe, coffee shop, pub, or food-service chain object.",
+      "url": "https://riklab.ru/#request",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "name",
+          "phone",
+          "message"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Contact person name"
+          },
+          "company": {
+            "type": "string",
+            "description": "Company name"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact phone number"
+          },
+          "message": {
+            "type": "string",
+            "description": "Project or service request description"
+          }
+        }
+      }
+    }
+  ]
+}

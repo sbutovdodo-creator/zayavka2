@@ -16,4 +16,6 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
 Sitemap: https://riklab.ru/sitemap.xml

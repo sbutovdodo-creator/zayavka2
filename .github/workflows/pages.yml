@@ -31,8 +31,9 @@ jobs:
           mkdir -p _site
           cp index.html _site/
           cp .nojekyll _site/
-          cp robots.txt sitemap.xml llms.txt ai.json _site/
+          cp robots.txt sitemap.xml llms.txt ai.json index.md auth.md _site/
           cp -R css js assets _site/
+          cp -R .well-known _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

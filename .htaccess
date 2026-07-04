@@ -1,0 +1,14 @@
+<IfModule mod_headers.c>
+  Header append Link "<https://riklab.ru/llms.txt>; rel=\"service-doc\"; type=\"text/markdown\""
+  Header append Link "<https://riklab.ru/ai.json>; rel=\"service-desc\"; type=\"application/json\""
+  Header append Link "<https://riklab.ru/.well-known/api-catalog>; rel=\"api-catalog\"; type=\"application/linkset+json\""
+  Header append Link "<https://riklab.ru/.well-known/agent-skills/index.json>; rel=\"service-doc\"; type=\"application/json\""
+  Header append Link "<https://riklab.ru/.well-known/mcp/server-card.json>; rel=\"service-desc\"; type=\"application/json\""
+  Header append Link "<https://riklab.ru/auth.md>; rel=\"service-doc\"; type=\"text/markdown\""
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_ACCEPT} text/markdown [NC]
+  RewriteRule ^$ /index.md [L]
+</IfModule>

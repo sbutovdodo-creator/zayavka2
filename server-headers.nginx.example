@@ -1,0 +1,12 @@
+# Пример для nginx, если сайт обслуживается не Apache.
+# Добавить в server/location для riklab.ru и перезагрузить nginx.
+
+add_header Link '<https://riklab.ru/llms.txt>; rel="service-doc"; type="text/markdown"' always;
+add_header Link '<https://riklab.ru/ai.json>; rel="service-desc"; type="application/json"' always;
+add_header Link '<https://riklab.ru/.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json"' always;
+add_header Link '<https://riklab.ru/.well-known/agent-skills/index.json>; rel="service-doc"; type="application/json"' always;
+add_header Link '<https://riklab.ru/.well-known/mcp/server-card.json>; rel="service-desc"; type="application/json"' always;
+add_header Link '<https://riklab.ru/auth.md>; rel="service-doc"; type="text/markdown"' always;
+
+# Опционально: markdown negotiation для главной страницы.
+# Если агент присылает Accept: text/markdown, можно отдавать /index.md вместо HTML.
