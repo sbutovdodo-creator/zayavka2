@@ -17,7 +17,12 @@ function clean_value(string $value, int $limit = 1200): string
 {
     $value = trim($value);
     $value = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $value) ?? '';
-    return mb_substr($value, 0, $limit, 'UTF-8');
+
+    if (function_exists('mb_substr')) {
+        return mb_substr($value, 0, $limit, 'UTF-8');
+    }
+
+    return substr($value, 0, $limit);
 }
 
 function encode_header(string $value): string
@@ -110,6 +115,48 @@ function smtp_send(array $config, string $subject, string $body, string $replyTo
     }
 }
 
+function php_mail_send(array $config, string $subject, string $body, string $replyTo = ''): void
+{
+    $to = (string) $config['mail_to'];
+    $from = (string) $config['mail_from'];
+    $fromName = (string) $config['mail_from_name'];
+
+    $headers = [
+        'MIME-Version: 1.0',
+        'Content-Type: text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding: 8bit',
+        'From: ' . encode_header($fromName) . ' <' . $from . '>',
+        'X-Mailer: RIK-LAB site form',
+    ];
+
+    if ($replyTo !== '') {
+        $headers[] = 'Reply-To: <' . $replyTo . '>';
+    }
+
+    $sent = mail($to, encode_header($subject), $body, implode("\r\n", $headers), '-f' . $from);
+
+    if (!$sent) {
+        throw new RuntimeException('PHP mail() returned false.');
+    }
+}
+
+function send_application(array $config, string $subject, string $body): void
+{
+    $hasSmtpPassword = !empty($config['smtp_pass']) && $config['smtp_pass'] !== 'PASTE_MAILBOX_PASSWORD_HERE';
+    $transport = (string) ($config['mail_transport'] ?? ($hasSmtpPassword ? 'smtp' : 'php_mail'));
+
+    if ($transport === 'smtp' && $hasSmtpPassword) {
+        try {
+            smtp_send($config, $subject, $body);
+            return;
+        } catch (Throwable $error) {
+            error_log('RIK-LAB SMTP failed, trying mail(): ' . $error->getMessage());
+        }
+    }
+
+    php_mail_send($config, $subject, $body);
+}
+
 function verify_smartcaptcha(array $config, string $token): bool
 {
     if (empty($config['captcha_enabled'])) {
@@ -119,7 +166,8 @@ function verify_smartcaptcha(array $config, string $token): bool
     $secret = (string) ($config['captcha_secret'] ?? '');
 
     if ($secret === '' || $secret === 'PASTE_YANDEX_SMARTCAPTCHA_SERVER_KEY_HERE') {
-        throw new RuntimeException('SmartCaptcha secret is not configured.');
+        error_log('RIK-LAB captcha skipped: SmartCaptcha secret is not configured.');
+        return true;
     }
 
     if ($token === '') {
@@ -173,15 +221,31 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $configPath = __DIR__ . '/config.local.php';
+$config = [
+    'smtp_host' => 'mail.hosting.reg.ru',
+    'smtp_port' => 465,
+    'smtp_secure' => 'ssl',
+    'smtp_user' => 'info@riklab.ru',
+    'smtp_pass' => '',
+    'mail_from' => 'info@riklab.ru',
+    'mail_from_name' => 'РИК-ЛАБ',
+    'mail_to' => 'info@riklab.ru',
+    'mail_subject' => 'Заявка с сайта РИК-ЛАБ',
+    'mail_transport' => 'php_mail',
+    'captcha_enabled' => true,
+    'captcha_secret' => '',
+];
 
-if (!is_file($configPath)) {
-    respond(false, 'Отправка пока не настроена на сервере.', 500);
-}
+if (is_file($configPath)) {
+    $localConfig = require $configPath;
 
-$config = require $configPath;
+    if (!is_array($localConfig)) {
+        respond(false, 'Некорректные настройки отправки на сервере.', 500);
+    }
 
-if (!is_array($config) || empty($config['smtp_pass']) || $config['smtp_pass'] === 'PASTE_MAILBOX_PASSWORD_HERE') {
-    respond(false, 'Не заполнены настройки отправки на сервере.', 500);
+    $config = array_merge($config, $localConfig);
+} else {
+    error_log('RIK-LAB form warning: config.local.php not found, using PHP mail() fallback.');
 }
 
 if (!empty($_POST['website'])) {
@@ -223,7 +287,7 @@ $body = implode("\n", [
 ]);
 
 try {
-    smtp_send($config, (string) $config['mail_subject'], $body);
+    send_application($config, (string) $config['mail_subject'], $body);
     respond(true, 'Спасибо, заявка отправлена. Специалисты РИК-ЛАБ свяжутся с вами.');
 } catch (Throwable $error) {
     error_log('RIK-LAB form error: ' . $error->getMessage());

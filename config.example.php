@@ -12,6 +12,7 @@ return [
     'mail_from_name' => 'РИК-ЛАБ',
     'mail_to' => 'info@riklab.ru',
     'mail_subject' => 'Заявка с сайта РИК-ЛАБ',
+    'mail_transport' => 'smtp',
 
     // Секретный ключ Яндекс SmartCaptcha. Публичный sitekey указан в index.html.
     'captcha_enabled' => true,

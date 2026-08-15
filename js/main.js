@@ -108,7 +108,7 @@ form.addEventListener("submit", async (event) => {
       window.smartCaptcha.reset();
     }
   } catch (error) {
-    formMessage.textContent = "Не удалось отправить заявку. Позвоните нам: +7 995 918-65-16.";
+    formMessage.textContent = error.message || "Не удалось отправить заявку. Позвоните нам: +7 995 918-65-16.";
     if (window.smartCaptcha && typeof window.smartCaptcha.reset === "function") {
       window.smartCaptcha.reset();
     }
