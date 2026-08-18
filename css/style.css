@@ -321,7 +321,7 @@ h1 {
 }
 
 .hero__lead {
-  max-width: 660px;
+  max-width: 1024px;
   margin-bottom: 22px;
   color: rgba(255, 255, 255, 0.78);
   font-size: clamp(18px, 2vw, 23px);
